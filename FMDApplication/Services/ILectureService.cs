@@ -1,11 +1,11 @@
-﻿using FMDApplication.Dtos;
+﻿using FMDApplication.Dtos.Lecture;
 using FMDApplication.Response;
 
 namespace FMDApplication.Services
 {
     public interface ILectureService
     {
-        Task<ApiResponse<IEnumerable<LectureDto>>> GetAllAsync();
-        Task<ApiResponse<LectureDto>> AddAsync(LectureDto lecture);
+        Task<ApiResponse<IEnumerable<GetAllLectureDto>>> GetAllAsync();
+        Task<ApiResponse<CreateLectureOutuputDto>> AddAsync(CreateLectureInputDto lecture);
     }
 }

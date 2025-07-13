@@ -20,11 +20,14 @@ namespace FMDInfra.Persistence
                 .ToListAsync();
         }
 
-        public async Task<Participant> AddAsync(Participant participante)
+        public async Task<Participant> AddAsync(Participant participant)
         {
-            _context.Participants.Add(participante);
+            if (!await _context.Lectures.AnyAsync(l => l.Id == participant.LectureId))
+                return null;
+
+            _context.Participants.Add(participant);
             await _context.SaveChangesAsync();
-            return participante;
+            return participant;
         }
 
         public async Task<Participant?> UpdateAsync(Participant participant)
@@ -44,10 +47,10 @@ namespace FMDInfra.Persistence
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var participante = await _context.Participants.FindAsync(id);
-            if (participante == null) return false;
+            var participant = await _context.Participants.FindAsync(id);
+            if (participant == null) return false;
 
-            _context.Participants.Remove(participante);
+            _context.Participants.Remove(participant);
             await _context.SaveChangesAsync();
             return true;
         }

@@ -1,4 +1,5 @@
 ﻿using FMDApplication.Dtos;
+using FMDApplication.Dtos.Participant;
 using FMDApplication.Response;
 
 namespace FMDApplication.Services
@@ -6,9 +7,9 @@ namespace FMDApplication.Services
     public interface IParticipantService
     {
 
-        Task<ApiResponse<ParticipantDto?>> UpdateAsync(ParticipantDto dto);
-        Task<ApiResponse<ParticipantDto?>> AddAsync(ParticipantDto dto);
-        Task<ApiResponse<IEnumerable<ParticipantDto>?>> GetAllAsync();
+        Task<ApiResponse<UpdateParticipantOutputDto>> UpdateAsync(Guid id, UpdateParticipantInputDto dto);
+        Task<ApiResponse<CreateParticipantOutputDto>> AddAsync(CreateParticipantInputDto dto);
+        Task<ApiResponse<IEnumerable<GetAllParticipantDto>>> GetAllAsync();
         Task<ApiResponse<bool>> DeleteAsync(Guid id);
 
     }
