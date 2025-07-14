@@ -91,7 +91,7 @@ namespace FMDIntegrationTests
             await _repository.AddAsync(participant1);
             await _repository.AddAsync(participant2);
 
-            var result = await _repository.GetAllAsync();
+            var result = await _repository.GetAllAsync(1, 10);
 
             var participants = result.ToList();
 
@@ -178,7 +178,7 @@ namespace FMDIntegrationTests
 
             var deleteResult = await _repository.DeleteAsync(participantId);
 
-            var allParticipants = await _repository.GetAllAsync();
+            var allParticipants = await _repository.GetAllAsync(1, 10);
             var foundParticipant = allParticipants.FirstOrDefault(p => p.Id == participantId);
 
             Assert.True(deleteResult);

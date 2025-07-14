@@ -1,8 +1,11 @@
 using FluentValidation;
+using FMDApi.Build;
+using FMDApplication.Build;
 using FMDApplication.Dtos;
 using FMDApplication.Dtos.Lecture;
 using FMDApplication.Dtos.Participant;
 using FMDApplication.Services;
+using FMDApplication.Services.Interfaces;
 using FMDApplication.Validators;
 using FMDCore.Interfaces;
 using FMDInfra.Build;
@@ -18,24 +21,16 @@ namespace FMDApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
             builder.Services.AddContext(builder.Configuration);
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerDocumentation();
             builder.Services.AddRepositories();
+            builder.Services.AddServices(builder.Configuration);
+            builder.Services.AddValidators();
 
-            builder.Services.AddScoped<ILectureService, LectureService>();
-            builder.Services.AddScoped<IParticipantService, ParticipantService>();
-            builder.Services.AddScoped<IValidator<CreateLectureInputDto>, CreateLectureDtoValidator>();
-            builder.Services.AddScoped<IValidator<CreateParticipantInputDto>, CreateParticipantDtoValidator>();
-            builder.Services.AddScoped<IValidator<UpdateParticipantInputDto>, UpdateParticipantDtoValidator>();
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -43,7 +38,6 @@ namespace FMDApi
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
             app.UseMiddleware<ExceptionMiddleware>();
             app.MapControllers();

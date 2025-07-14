@@ -89,9 +89,9 @@ namespace FMDUnitTests
                 }
             };
 
-            lectureRepo.Setup(x => x.GetAllAsync()).ReturnsAsync(lectures);
+            lectureRepo.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(lectures);
 
-            var response = await lectureService.GetAllAsync();
+            var response = await lectureService.GetAllAsync(1, 10);
 
             Assert.NotNull(response);
             Assert.True(response.Success);
@@ -104,7 +104,7 @@ namespace FMDUnitTests
             Assert.Equal(lectures.First().Participants.First().Name, response.Data?.First().Participants.First().Name);
             Assert.Equal(lectures.First().Participants.First().Email, response.Data?.First().Participants.First().Email);
             Assert.Equal(lectures.First().Participants.First().Phone, response.Data?.First().Participants.First().Phone);
-            lectureRepo.Verify(x => x.GetAllAsync(), Times.Once);
+            lectureRepo.Verify(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
         }
     }
 }

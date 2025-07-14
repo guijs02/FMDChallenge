@@ -13,11 +13,17 @@ namespace FMDInfra.Persistence
         {
             _context = context;
         }
-        public async Task<IEnumerable<Participant>> GetAllAsync()
+        public async Task<IEnumerable<Participant>> GetAllAsync(int pageNumber, int pageSize)
         {
-            return await _context.Participants
-                .Include(p => p.Lecture)
+            var query = _context.Participants
+                .Include(p => p.Lecture);
+
+            var participants = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            return participants;
         }
 
         public async Task<Participant> AddAsync(Participant participant)

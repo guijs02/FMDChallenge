@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FMDApplication.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FMDApplication.Dtos.Participant
 {
-    public class GetAllParticipantDto
+    public class GetAllParticipantDto 
     {
         public Guid Id { get; set; }
         public Guid LectureId { get; set; }

@@ -18,9 +18,16 @@ namespace FMDInfra.Persistence
             _context = context;
         }
 
-        public override async Task<IEnumerable<Lecture>> GetAllAsync()
+        public override async Task<IEnumerable<Lecture>> GetAllAsync(int pageNumber, int pageSize)
         {
-            return await _context.Lectures.Include(s => s.Participants).ToListAsync();
+            var query = _context.Lectures.Include(s => s.Participants);
+
+            var lectures = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return lectures;
         }
     }
 }

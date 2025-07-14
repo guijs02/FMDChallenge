@@ -23,7 +23,7 @@ namespace FMDApi
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ocorreu uma exceção não tratada.");
+                _logger.LogError(ex, "An unhandled exception occurred..");
                 await HandleExceptionAsync(context, ex);
             }
         }
@@ -32,7 +32,7 @@ namespace FMDApi
         {
             var response = new
             {
-                Message = "Ocorreu um erro inesperado ao processar a requisição.",
+                Message = "An unexpected error occurred while processing the request.",
                 Detail = exception.Message
             };
 

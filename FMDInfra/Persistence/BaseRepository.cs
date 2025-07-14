@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FMDInfra.Persistence
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         private readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
@@ -15,10 +15,7 @@ namespace FMDInfra.Persistence
             _dbSet = _context.Set<T>();
         }
 
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await _dbSet.ToListAsync();
-        }
+        public abstract Task<IEnumerable<T>> GetAllAsync(int pageNumber, int pageSize);
 
         public async Task<T> AddAsync(T entity)
         {

@@ -3,7 +3,7 @@ using FMDApi.Extension;
 using FMDApplication.Dtos;
 using FMDApplication.Dtos.Participant;
 using FMDApplication.Response;
-using FMDApplication.Services;
+using FMDApplication.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FMDApi.Controllers
@@ -25,9 +25,11 @@ namespace FMDApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<IEnumerable<GetAllParticipantDto>>>> GetAll()
+        public async Task<ActionResult<ApiResponse<IEnumerable<GetAllParticipantDto>>>> GetAll(
+                                                [FromQuery] int pageNumber = 1,
+                                                [FromQuery] int pageSize = 10)
         {
-            var result = await _participantService.GetAllAsync();
+            var result = await _participantService.GetAllAsync(pageNumber, pageSize);
             return Ok(result);
         }
 

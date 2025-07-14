@@ -111,7 +111,7 @@ namespace FMDIntegrationTests
             await _repository.AddAsync(lecture1);
             await _repository.AddAsync(lecture2);
 
-            var result = await _repository.GetAllAsync();
+            var result = await _repository.GetAllAsync(1, 10);
 
             Assert.NotNull(result);
             var lectures = result.ToList();

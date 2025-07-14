@@ -67,9 +67,9 @@ namespace FMDUnitTests
                     }
                 };
 
-            participantRepo.Setup(x => x.GetAllAsync()).ReturnsAsync(participants);
+            participantRepo.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(participants);
 
-            var response = await participantService.GetAllAsync();
+            var response = await participantService.GetAllAsync(1, 10);
 
             Assert.NotNull(response);
             Assert.True(response.Success);
@@ -79,7 +79,7 @@ namespace FMDUnitTests
             Assert.Equal(participants.First().Email, response.Data?.First().Email);
             Assert.Equal(participants.First().Phone, response.Data?.First().Phone);
 
-            participantRepo.Verify(x => x.GetAllAsync(), Times.Once);
+            participantRepo.Verify(x => x.GetAllAsync(1, 10), Times.Once);
         }
 
         [Fact(DisplayName = "Should update a Participant with success")]

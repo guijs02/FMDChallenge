@@ -2,14 +2,14 @@
 using FMDApplication.Dtos.Participant;
 using FMDApplication.Response;
 
-namespace FMDApplication.Services
+namespace FMDApplication.Services.Interfaces
 {
     public interface IParticipantService
     {
 
         Task<ApiResponse<UpdateParticipantOutputDto>> UpdateAsync(Guid id, UpdateParticipantInputDto dto);
         Task<ApiResponse<CreateParticipantOutputDto>> AddAsync(CreateParticipantInputDto dto);
-        Task<ApiResponse<IEnumerable<GetAllParticipantDto>>> GetAllAsync();
+        Task<PagedResponse<IEnumerable<GetAllParticipantDto>>> GetAllAsync(int pageNumber, int pageSize);
         Task<ApiResponse<bool>> DeleteAsync(Guid id);
 
     }

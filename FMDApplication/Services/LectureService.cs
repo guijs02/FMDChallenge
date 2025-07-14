@@ -2,6 +2,7 @@
 using FMDApplication.Dtos.Lecture;
 using FMDApplication.Dtos.Participant;
 using FMDApplication.Response;
+using FMDApplication.Services.Interfaces;
 using FMDCore.Interfaces;
 
 namespace FMDApplication.Services
@@ -51,10 +52,13 @@ namespace FMDApplication.Services
                            : new ApiResponse<CreateLectureOutuputDto>(output, true, "Lecture created successfully");
         }
 
-        public async Task<ApiResponse<IEnumerable<GetAllLectureDto>>> GetAllAsync()
+        public async Task<PagedResponse<IEnumerable<GetAllLectureDto>>> GetAllAsync(int pageNumber, int pageSize)
         {
-            var lectures = await _repository.GetAllAsync();
-            return new ApiResponse<IEnumerable<GetAllLectureDto>>(lectures.Select(s => new GetAllLectureDto
+            var lectures = await _repository.GetAllAsync(pageNumber, pageSize);
+
+            var count = lectures.Count();
+
+            return new PagedResponse<IEnumerable<GetAllLectureDto>>(lectures.Select(s => new GetAllLectureDto
             {
                 Id = s.Id,
                 Title = s.Title,
@@ -68,7 +72,7 @@ namespace FMDApplication.Services
                     Phone = p.Phone,
                     LectureId = p.LectureId
                 })
-            }), true, "Lectures retrieved successfully");
+            }), count, pageNumber, pageSize);
         }
     }
 }

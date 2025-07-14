@@ -1,6 +1,7 @@
 ﻿using FMDApplication.Dtos;
 using FMDApplication.Dtos.Participant;
 using FMDApplication.Response;
+using FMDApplication.Services.Interfaces;
 using FMDCore.Interfaces;
 using FMDInfra.Models;
 
@@ -77,11 +78,11 @@ namespace FMDApplication.Services
             return new ApiResponse<CreateParticipantOutputDto>(output, true, "Participant created successfully");
         }
 
-        public async Task<ApiResponse<IEnumerable<GetAllParticipantDto>>> GetAllAsync()
+        public async Task<PagedResponse<IEnumerable<GetAllParticipantDto>>> GetAllAsync(int pageNumber, int pageSize)
         {
-            var particpants = await _repository.GetAllAsync();
-
-            return new ApiResponse<IEnumerable<GetAllParticipantDto>>(
+            var particpants = await _repository.GetAllAsync(pageNumber, pageSize);
+            var count = particpants.Count();
+            return new PagedResponse<IEnumerable<GetAllParticipantDto>>(
                 particpants.Select(p => new GetAllParticipantDto
                 {
                     Id = p.Id,
@@ -89,7 +90,8 @@ namespace FMDApplication.Services
                     Email = p.Email,
                     Phone = p.Phone,
                     LectureId = p.LectureId
-                }), true, "Participants retrieved successfully");
+                }), count, pageNumber, pageSize);
+          
         }
     }
 }
